@@ -3,11 +3,21 @@
 <head>
 	<title>Magic Mirror</title>
 	<link rel="stylesheet" href="index.css">
+	<script src="gpt_image_processing.js"></script>
 </head>
 <body>
 	<div id="current-time"></div>
 	<div id="weather-widget"></div>
 	<div id="compliment"></div>
+
+	<div class="camera">
+		<video id="video">Video stream not available.</video>
+	</div>
+	<canvas id="canvas"> </canvas>
+	<div class="output">
+  		<img id="photo" alt="The screen capture will appear in this box." />
+	</div>
+
 	<script>
 		//display time
 		function displayTime() {
