@@ -5,10 +5,13 @@
 	<link rel="stylesheet" href="index.css">
 	<script src="gpt_image_processing.js"></script>
 </head>
-<body>
+<body></body>
+	<div id="current-date"></div>
 	<div id="current-time"></div>
-	<div id="weather-widget"></div>
 	<div id="compliment"></div>
+	<div id="weather-widget"></div>
+	<div id="weather-forcast"></div>
+	<div id="todo-list"></div>
 
 	<div class="camera">
 		<video id="video">Video stream not available.</video>
@@ -19,6 +22,15 @@
 	</div>
 
 	<script>
+		//display date
+		function displayDate() {
+			const date = new Date();
+			const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+			return date.toLocaleDateString(undefined, options);
+		}
+		const dateElement = document.getElementById('current-date');
+		dateElement.textContent = displayDate();
+
 		//display time
 		function displayTime() {
 			const date = new Date();
@@ -33,23 +45,29 @@
 		}, 1000);
 
 		// Fetch weather data from an API
-		fetch('https://api.weatherapi.com/v1/current.json?key=5cb1a417aaf54fb386b31213240403&q=92092')
+		fetch('https://api.weatherapi.com/v1/current.json?key=5cb1a417aaf54fb386b31213240403&q=92092&days=5')
 			.then(response => response.json())
 			.then(data => {
 				const weatherElement = document.getElementById('weather-widget');
-				weatherElement.textContent = `Current weather: ${data.current.temp_c}°C, ${data.current.condition.text}`;
+				weatherElement.textContent = `Current weather: ${data.current.temp_f}°F, ${data.current.condition.text} \n Feels like: ${data.current.feelslike_f}°F\nWind: ${data.current.wind_mph} mph`;
+				const weatherForcastElement = document.getElementById('weather-forcast');
+				weatherForcastElement.textContent = `Today's forcast: ${data.forecast.forecastday[0].day.condition.text} \n High: ${data.forecast.forecastday[0].day.maxtemp_f}°F, Low: ${data.forecast.forecastday[0].day.mintemp_f}°F`;
 			})
 			.catch(error => {
 				console.error('Error fetching weather data:', error);
 			});
-
+		// 
 		// Array of compliments
 		const compliments = [
 			'You look great today!',
 			'You are doing an amazing job!',
-			'Keep up the good work!',
+			'Keep up the good work today!',
 			'You are awesome!',
-			'You are a coding genius!'
+			'Your look is stunning!',
+			'I like your style!',
+			'Your hair looks amazing!',
+			'I love what you did with your hair!',
+			'SLAYYYY!',
 		];
 		// Display a random compliment
 		const complimentElement = document.getElementById('compliment');
